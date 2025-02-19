@@ -85,3 +85,64 @@ plt.show()
 ```
 
 ![image](https://github.com/user-attachments/assets/1f0fa6f3-45bf-483a-8c55-0f89b040983f)
+
+# Equal weighted portfolios
+
+When comparing different portfolios, you often want to consider performance versus a naive equally-weighted portfolio. If the portfolio doesn't outperform a simple equally weighted portfolio, you might want to consider another strategy, or simply opt for the naive approach if all else fails. You can expect equally-weighted portfolios to tend to outperform the market when the largest companies are doing poorly. This is because even tiny companies would have the same weight in your equally-weighted portfolio as Apple or Amazon, for example.
+
+To make it easier for you to visualize the cumulative returns of portfolios, we defined the function cumulative_returns_plot() in your workspace.
+
+Set numstocks equal to 9, which is the number of stocks in your portfolio.
+Use np.repeat() to set portfolio_weights_ew equal to an array with an equal weights for each of the 9 stocks.
+Use the .iloc accessor to select all rows and the first 9 columns when calculating the portfolio return.
+Finally, review the plot of cumulative returns over time.
+
+```
+# How many stocks are in your portfolio?
+numstocks = 9
+
+# Create an array of equal weights across all assets
+portfolio_weights_ew = np.repeat(1/numstocks, numstocks)
+
+# Calculate the equally-weighted portfolio returns
+StockReturns['Portfolio_EW'] = StockReturns.iloc[:, 0:numstocks].mul(portfolio_weights_ew, axis=1).sum(axis=1)
+cumulative_returns_plot(['Portfolio', 'Portfolio_EW'])
+```
+
+# Market-cap weighted portfolios
+Conversely, when large companies are doing well, market capitalization, or "market cap" weighted portfolios tend to outperform. This is because the largest weights are being assigned to the largest companies, or the companies with the largest market cap.
+
+Below is a table of the market capitalizations of the companies in your portfolio just before January 2017:
+
+Company Name	Ticker	Market Cap ($ Billions)
+Apple	AAPL	601.51
+Microsoft	MSFT	469.25
+Exxon Mobil	XOM	349.5
+Johnson & Johnson	JNJ	310.48
+JP Morgan	JPM	299.77
+Amazon	AMZN	356.94
+General Electric	GE	268.88
+Facebook	FB	331.57
+AT&T	T	246.09
+
+Instructions
+100 XP
+Finish defining the market_capitalizations array of market capitalizations in billions according to the table above.
+Calculate mcap_weights array such that each element is the ratio of market cap of the company to the total market cap of all companies.
+Use the .mul() method on the mcap_weights and returns to calculate the market capitalization weighted portfolio returns.
+Finally, review the plot of cumulative returns over time.
+
+```
+# Create an array of market capitalizations (in billions)
+market_capitalizations = np.array([601.51, 469.25, 349.5, 310.48, 299.77, 356.94, 268.88, 331.57, 246.09])
+
+# Calculate the market cap weights
+mcap_weights = market_capitalizations / sum(market_capitalizations)
+
+# Calculate the market cap weighted portfolio returns
+StockReturns['Portfolio_MCap'] = StockReturns.iloc[:, 0:9].mul(mcap_weights, axis=1).sum(axis=1)
+cumulative_returns_plot(['Portfolio', 'Portfolio_EW', 'Portfolio_MCap'])
+```
+
+![image](https://github.com/user-attachments/assets/d0b55bf6-c6f7-496a-be9d-ec8f954e9e32)
+
